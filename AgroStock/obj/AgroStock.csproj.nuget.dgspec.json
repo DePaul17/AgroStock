@@ -1,0 +1,75 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/guyvincentdepaulmouyabi/Projects/AgroStock/AgroStock/AgroStock.csproj": {}
+  },
+  "projects": {
+    "/Users/guyvincentdepaulmouyabi/Projects/AgroStock/AgroStock/AgroStock.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/guyvincentdepaulmouyabi/Projects/AgroStock/AgroStock/AgroStock.csproj",
+        "projectName": "AgroStock",
+        "projectPath": "/Users/guyvincentdepaulmouyabi/Projects/AgroStock/AgroStock/AgroStock.csproj",
+        "packagesPath": "/Users/guyvincentdepaulmouyabi/.nuget/packages/",
+        "outputPath": "/Users/guyvincentdepaulmouyabi/Projects/AgroStock/AgroStock/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/guyvincentdepaulmouyabi/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "/usr/local/share/dotnet/sdk/7.0.304/Sdks/Microsoft.NET.Sdk.Web/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "MySql.Data": {
+              "target": "Package",
+              "version": "[9.1.0, )"
+            },
+            "MySqlConnector": {
+              "target": "Package",
+              "version": "[2.4.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.304/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
