@@ -4,7 +4,7 @@
 
 -- Ajout d'une nouvelle catégorie
 DELIMITER $
-CREATE PROCEDURE InsertCategory(IN categoryName VARCHAR(100), IN categoryDescription TEXT)
+CREATE PROCEDURE insertCategory(IN categoryName VARCHAR(100), IN categoryDescription TEXT)
 BEGIN
     INSERT INTO product_category (CategoryName, Description)
     VALUES (categoryName, categoryDescription);
@@ -12,7 +12,7 @@ END $
 DELIMITER ;
 
 -- Lister les catégories
-CREATE VIEW V_ListeCategories AS 
+CREATE VIEW v_ListeCategories AS 
 SELECT 
     Id AS CategoryId,
     CategoryName,
@@ -21,7 +21,7 @@ FROM product_category;
 
 -- Modification d'une catégorie
 DELIMITER $
-CREATE PROCEDURE UpdateCategory(
+CREATE PROCEDURE updateCategory(
     IN categoryId INT,
     IN newCategoryName VARCHAR(100),
     IN newCategoryDescription TEXT
@@ -37,7 +37,7 @@ DELIMITER ;
 
 -- Suppression d'une catégorie
 DELIMITER $
-CREATE PROCEDURE DeleteCategory(
+CREATE PROCEDURE deleteCategory(
     IN categoryId INT
 )
 BEGIN

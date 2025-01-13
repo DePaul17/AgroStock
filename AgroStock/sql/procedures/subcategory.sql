@@ -4,7 +4,7 @@
 
 -- Ajout d'une nouvelle sous-catégorie
 DELIMITER $
-CREATE PROCEDURE InsertSubcategory(IN subcategoryName VARCHAR(100), IN description TEXT, IN categoryId INT)
+CREATE PROCEDURE insertSubcategory(IN subcategoryName VARCHAR(100), IN description TEXT, IN categoryId INT)
 BEGIN
     INSERT INTO product_subcategory (SubcategoryName, Description, CategoryId)
     VALUES (subcategoryName, description, categoryId);
@@ -12,7 +12,7 @@ END $
 DELIMITER ;
 
 -- Lister les sous-catégories
-CREATE VIEW V_ListeSubcategories AS 
+CREATE VIEW v_ListeSubcategories AS 
 SELECT 
     ps.Id AS SubcategoryId,
     ps.SubcategoryName,
@@ -23,7 +23,7 @@ JOIN product_category pc ON ps.CategoryId = pc.Id;
 
 -- Modification d'une sous-catégorie
 DELIMITER $
-CREATE PROCEDURE UpdateSubcategory(
+CREATE PROCEDURE updateSubcategory(
     IN subcategoryId INT,
     IN newSubcategoryName VARCHAR(100),
     IN newDescription TEXT,
@@ -41,7 +41,7 @@ DELIMITER ;
 
 -- Suppression d'une sous-catégorie
 DELIMITER $
-CREATE PROCEDURE DeleteSubcategory(
+CREATE PROCEDURE deleteSubcategory(
     IN subcategoryId INT
 )
 BEGIN
