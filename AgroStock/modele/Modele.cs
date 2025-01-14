@@ -120,7 +120,7 @@ namespace AgroStock.modele
                 this.maConnexion.Open();
                 uneSubcategory = this.maConnexion.CreateCommand();
                 uneSubcategory.CommandText = requete;
-                //Faire la correspondance entre les variables SQL et les données d'une catégorie
+                //Faire la correspondance entre les variables SQL et les données d'une sous-catégorie
                 uneSubcategory.Parameters.AddWithValue("@idSubcategory", idSubcategory);
 
                 //Excution de la requete
@@ -201,7 +201,7 @@ namespace AgroStock.modele
                 this.maConnexion.Open();
                 unLocation = this.maConnexion.CreateCommand();
                 unLocation.CommandText = requete;
-                //Faire la correspondance entre les variables SQL et les données d'une Emplaxcement
+                //Faire la correspondance entre les variables SQL et les données d'un Emplaxcement
                 unLocation.Parameters.AddWithValue("@locationName", unStorageLocation.LocationName);
                 unLocation.Parameters.AddWithValue("@storageType", unStorageLocation.StorageType);
                 unLocation.Parameters.AddWithValue("@maxCapacity", unStorageLocation.MaxCapacity);
@@ -281,7 +281,7 @@ namespace AgroStock.modele
                 this.maConnexion.Open();
                 unNewStock = this.maConnexion.CreateCommand();
                 unNewStock.CommandText = requete;
-                //Faire la correspondance entre les variables SQL et les données d'une catégorie
+                //Faire la correspondance entre les variables SQL et les données d'un stock
                 unNewStock.Parameters.AddWithValue("@idStock", idStock);
 
                 //Excution de la requete
