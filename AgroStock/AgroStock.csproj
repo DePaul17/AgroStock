@@ -17,7 +17,6 @@
   <ItemGroup>
     <Folder Include="sql\" />
     <Folder Include="sql\procedures\" />
-    <Folder Include="controleur\" />
     <Folder Include="modele\" />
   </ItemGroup>
   <ItemGroup>

@@ -73,8 +73,36 @@ CREATE TABLE historical (
     FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
 );
 
+-- Création de la table customer_order (commande client)
+CREATE TABLE customer_order (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    orderDate DATE NOT NULL,
+    customerId INT NOT NULL,
+    totalAmount DECIMAL(10, 2) NOT NULL,
+    status ENUM('pending', 'completed', 'cancelled') NOT NULL,
+    FOREIGN KEY (customerId) REFERENCES user(id) ON DELETE CASCADE
+);
 
+-- Création de la table order_item (lignes de commande)
+CREATE TABLE order_item (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    orderId INT NOT NULL,
+    productId INT NOT NULL,
+    quantity INT NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (orderId) REFERENCES customer_order(id) ON DELETE CASCADE,
+    FOREIGN KEY (productId) REFERENCES product(id) ON DELETE CASCADE
+);
 
+-- Création de la table delivery (livraison)
+CREATE TABLE delivery (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    orderId INT NOT NULL,
+    deliveryDate DATE NOT NULL,
+    deliveryAddress TEXT NOT NULL,
+    deliveryStatus ENUM('pending', 'shipped', 'delivered', 'returned') NOT NULL,
+    FOREIGN KEY (orderId) REFERENCES customer_order(id) ON DELETE CASCADE
+);
 
 
 ------------------------------------------------------------ PROCÉDURE CATÉGORIE
@@ -350,5 +378,115 @@ CREATE PROCEDURE insertHistorical(IN p_user_id INT, IN p_action TEXT)
 BEGIN
     INSERT INTO historical (user_id, action)
     VALUES (p_user_id, p_action);
+END $
+DELIMITER ;
+
+
+------------------------------------------------------------ PROCÉDURE GESTION DE COMMANDES
+-- Ajout d'une nouvelle commande
+DELIMITER $
+CREATE PROCEDURE insertOrder(
+    IN p_orderDate DATE,
+    IN p_customerId INT,
+    IN p_totalAmount DECIMAL(10, 2),
+    IN p_status ENUM('pending', 'completed', 'cancelled')
+)
+BEGIN
+    INSERT INTO customer_order (orderDate, customerId, totalAmount, status)
+    VALUES (p_orderDate, p_customerId, p_totalAmount, p_status);
+END $
+DELIMITER ;
+
+-- Lister les commandes
+CREATE VIEW v_liste_orders AS 
+SELECT 
+    o.id AS order_id,
+    o.orderDate,
+    u.firstName,
+    u.lastName,
+    o.totalAmount,
+    o.status
+FROM customer_order o
+JOIN user u ON o.customerId = u.id;
+
+-- Modification d'une commande
+DELIMITER $
+CREATE PROCEDURE updateOrder(
+    IN p_orderId INT,
+    IN p_newOrderDate DATE,
+    IN p_newCustomerId INT,
+    IN p_newTotalAmount DECIMAL(10, 2),
+    IN p_newStatus ENUM('pending', 'completed', 'cancelled')
+)
+BEGIN
+    UPDATE customer_order
+    SET 
+        orderDate = p_newOrderDate,
+        customerId = p_newCustomerId,
+        totalAmount = p_newTotalAmount,
+        status = p_newStatus
+    WHERE id = p_orderId;
+END $
+DELIMITER ;
+
+-- Suppression d'une commande
+DELIMITER $
+CREATE PROCEDURE deleteOrder(IN p_orderId INT)
+BEGIN
+    DELETE FROM customer_order WHERE id = p_orderId;
+END $
+DELIMITER ;
+
+-------------------------------------------------------- PROCÉDURE LIVRAISON --------------------------------
+-- Ajout d'une nouvelle livraison
+DELIMITER $
+CREATE PROCEDURE insertDelivery(
+    IN p_orderId INT,
+    IN p_deliveryDate DATE,
+    IN p_deliveryAddress TEXT,
+    IN p_deliveryStatus ENUM('pending', 'shipped', 'delivered', 'returned')
+)
+BEGIN
+    INSERT INTO delivery (orderId, deliveryDate, deliveryAddress, deliveryStatus)
+    VALUES (p_orderId, p_deliveryDate, p_deliveryAddress, p_deliveryStatus);
+END $
+DELIMITER ;
+
+-- Lister les livraisons
+CREATE VIEW v_liste_deliveries AS 
+SELECT 
+    d.id AS delivery_id,
+    o.id AS order_id,
+    d.deliveryDate,
+    d.deliveryAddress,
+    d.deliveryStatus
+FROM delivery d
+JOIN customer_order o ON d.orderId = o.id;
+
+-- Modification d'une livraison
+DELIMITER $
+CREATE PROCEDURE updateDelivery(
+    IN p_deliveryId INT,
+    IN p_newOrderId INT,
+    IN p_newDeliveryDate DATE,
+    IN p_newDeliveryAddress TEXT,
+    IN p_newDeliveryStatus ENUM('pending', 'shipped', 'delivered', 'returned')
+)
+BEGIN
+    UPDATE delivery
+    SET 
+        orderId = p_newOrderId,
+        deliveryDate = p_newDeliveryDate,
+        deliveryAddress = p_newDeliveryAddress,
+        deliveryStatus = p_newDeliveryStatus
+    WHERE id = p_deliveryId;
+END $
+DELIMITER ;
+
+-- Suppression d'une livraison
+DELIMITER $
+CREATE PROCEDURE deleteDelivery(IN p_deliveryId INT)
+BEGIN
+    DELETE FROM delivery WHERE id = p_deliveryId;
 END $
 DELIMITER ;

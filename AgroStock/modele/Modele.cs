@@ -3,16 +3,16 @@
 using MySql.Data.MySqlClient;
 using System.Data.Common;
 using System.Diagnostics;
-using AgroStockDB;
+using AgroStock;
 
-namespace AgroStock.modele
+namespace AgroStock
 {
 	public class Modele
 	{
 		private string serveur, bdd, user, mdp;
 		private MySqlConnection maConnexion;
 
-		private Modele(string serveur, string bdd, string user, string mdp)
+		public Modele(string serveur, string bdd, string user, string mdp)
 		{
 			this.serveur = serveur;
 			this.bdd = bdd;
@@ -82,6 +82,61 @@ namespace AgroStock.modele
                 Debug.WriteLine("Erreur Execution requete");
 			}	
         }
+        //UPDATE
+        public void UpdateCategory(ProductCategory uneProductCategory)
+        {
+            string requete = "call updateCategory(@idCategory, @categoryName, @description);";
+            MySqlCommand uneCategory = null;
+            try
+            {
+                this.maConnexion.Open();
+                uneCategory = this.maConnexion.CreateCommand();
+                uneCategory.CommandText = requete;
+                //Faire la correspondance entre les variables SQL et les données d'une catégorie
+                uneCategory.Parameters.AddWithValue("@idCategory", uneProductCategory.Id);
+                uneCategory.Parameters.AddWithValue("@categoryName", uneProductCategory.CategoryName);
+                uneCategory.Parameters.AddWithValue("@description", uneProductCategory.Description);
+                //Excution de la requete
+                uneCategory.ExecuteNonQuery();
+                //Fermeture de la connexion
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine("Erreur Execution requete");
+            }
+        }
+        //LISTER LES CATEGORIES
+        public List<ProductCategory> GetAllCategories()
+        {
+            List<ProductCategory> categories = new List<ProductCategory>();
+            string requete = "SELECT * FROM v_ListeCategories;";
+            MySqlCommand lesCategories = null;
+            try
+            {
+                this.maConnexion.Open();
+                lesCategories = this.maConnexion.CreateCommand();
+                lesCategories.CommandText = requete;
+                MySqlDataReader unReader = lesCategories.ExecuteReader();
+                while (unReader.Read())
+                {
+                    ProductCategory category = new ProductCategory(
+                        unReader.GetInt32("CategoryId"),
+                        unReader.GetString("CategoryName"),
+                        unReader.GetString("Description")
+                    );
+                    categories.Add(category);
+                }
+                unReader.Close();
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine("Erreur execution requete");
+            }
+            return categories;
+        }
+
 
         //********************MODELE CRUD ProductSubcategory********************
         //AJOUT
@@ -134,6 +189,63 @@ namespace AgroStock.modele
                 Debug.WriteLine("Erreur Execution requete");
             }
         }
+        //UPDATE
+        public void UpdateSubcategory(ProductSubcategory uneProductSubcategory)
+        {
+            string requete = "call updateSubcategory(@idSubcategory, @subcategoryName, @description, @categoryId);";
+            MySqlCommand uneSubcategory = null;
+            try
+            {
+                this.maConnexion.Open();
+                uneSubcategory = this.maConnexion.CreateCommand();
+                uneSubcategory.CommandText = requete;
+                //Faire la correspondance entre les variables SQL et les données d'une sous-catégorie
+                uneSubcategory.Parameters.AddWithValue("@idSubcategory", uneProductSubcategory.Id);
+                uneSubcategory.Parameters.AddWithValue("@subcategoryName", uneProductSubcategory.SubcategoryName);
+                uneSubcategory.Parameters.AddWithValue("@description", uneProductSubcategory.Description);
+                uneSubcategory.Parameters.AddWithValue("@categoryId", uneProductSubcategory.CategoryId);
+                //Excution de la requete
+                uneSubcategory.ExecuteNonQuery();
+                //Fermeture de la connexion
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine("Erreur Execution requete");
+            }
+        }
+        //LISTER LES SOUS-CATEGORIES*
+        public List<ProductSubcategory> GetAllSubcategories()
+        {
+            List<ProductSubcategory> subcategories = new List<ProductSubcategory>();
+            string requete = "SELECT * FROM v_ListeSubcategories,;";
+            MySqlCommand lesSubcategories = null;
+            try
+            {
+                this.maConnexion.Open();
+                lesSubcategories = this.maConnexion.CreateCommand();
+                lesSubcategories.CommandText = requete;
+                MySqlDataReader unReader = lesSubcategories.ExecuteReader();
+                while (unReader.Read())
+                {
+                    ProductSubcategory subcategory = new ProductSubcategory(
+                        unReader.GetInt32("SubcategoryId"),
+                        unReader.GetString("SubcategoryName"),
+                        unReader.GetString("Description"),
+                        unReader.GetInt32("CategoryId")
+                    );
+                    subcategories.Add(subcategory);
+                }
+                unReader.Close();
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine("Erreur execution requete");
+            }
+            return subcategories;
+        }
+
 
         //********************MODELE CRUD Product*******************************
         //AJOUT
@@ -188,6 +300,74 @@ namespace AgroStock.modele
             {
                 Debug.WriteLine("Erreur Execution requete");
             }
+        }
+        //SELECTIONER UN PRODUIT
+        public Product GetlikeProduct(int idProduct)
+        {
+            Product product = null;
+            string requete = "SELECT * FROM v_liste_products WHERE ProductId = @idProduct;";
+            MySqlCommand leProduct = null;
+            try
+            {
+                this.maConnexion.Open();
+                leProduct = this.maConnexion.CreateCommand();
+                leProduct.CommandText = requete;
+                leProduct.Parameters.AddWithValue("@idProduct", idProduct);
+                MySqlDataReader unReader = leProduct.ExecuteReader();
+                while (unReader.Read())
+                {
+                    product = new Product(
+                        unReader.GetInt32("ProductId"),
+                        unReader.GetString("ProductName"),
+                        unReader.GetDateTime("ProductionDate"),
+                        unReader.GetFloat("TotalCarbonFootprint"),
+                        unReader.GetString("ResourcesUsed"),
+                        unReader.GetDecimal("Price"),
+                        unReader.GetInt32("SubcategoryId")
+                    );
+                }
+                unReader.Close();
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine("Erreur execution requete");
+            }
+            return product;
+        }
+        //LISTER LES PRODUITS
+        public List<Product> GetAllProducts()
+        {
+            List<Product> products = new List<Product>();
+            string requete = "SELECT * FROM v_liste_products;";
+            MySqlCommand lesProducts = null;
+            try
+            {
+                this.maConnexion.Open();
+                lesProducts = this.maConnexion.CreateCommand();
+                lesProducts.CommandText = requete;
+                MySqlDataReader unReader = lesProducts.ExecuteReader();
+                while (unReader.Read())
+                {
+                    Product product = new Product(
+                        unReader.GetInt32("ProductId"),
+                        unReader.GetString("ProductName"),
+                        unReader.GetDateTime("ProductionDate"),
+                        unReader.GetFloat("TotalCarbonFootprint"),
+                        unReader.GetString("ResourcesUsed"),
+                        unReader.GetDecimal("Price"),
+                        unReader.GetInt32("SubcategoryId")
+                    );
+                    products.Add(product);
+                }
+                unReader.Close();
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine("Erreur execution requete");
+            }
+            return products;
         }
 
         //********************MODELE CRUD StorageLocation***********************
@@ -322,6 +502,7 @@ namespace AgroStock.modele
                 Debug.WriteLine("Erreur execution requete");
             }
         }
+        
     }
 }
 

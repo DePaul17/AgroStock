@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AgroStockDB
+namespace AgroStock
 {
     public class StorageLocation
     {

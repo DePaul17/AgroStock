@@ -15,7 +15,7 @@ namespace AgroStock
         // Constructeur
         public Product(int id, string productName, DateTime productionDate, float totalCarbonFootprint, string resourcesUsed, decimal price, int subcategoryId)
         {
-            this.id = id;
+            this.id = id; 
             this.productName = productName;
             this.productionDate = productionDate;
             this.totalCarbonFootprint = totalCarbonFootprint;
