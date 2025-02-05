@@ -40,5 +40,33 @@ namespace AgroStock
         {
             unModele.UpdateSubcategory(productSubcategory);
         }
+
+        //********************MODELE CRUD Product***********************
+        //AJOUT
+        public static void InsertProduct(Product product)
+        {
+            unModele.InsertProduct(product);
+        }
+        //SUPPRESSION
+        public static void DeleteProduct(int id)
+        {
+            unModele.DeleteProduct(id);
+        }
+        //UPDATE
+        public static void UpdateProduct(Product product)
+        {
+            unModele.UpdateProduct(product);
+        }
+        //LISTE DES PRODUITS
+        public static List<Product> GetAllProducts()
+        {
+            return unModele.GetAllProducts();
+        }
+        // LIST LIKE PRODUCT
+        public static List<Product> GetProductLike(int  idProduct)
+        {
+            return unModele.GetlikeProduct(idProduct);
+        }
+        //********************MODELE CRUD Customer***********************
     }
 }

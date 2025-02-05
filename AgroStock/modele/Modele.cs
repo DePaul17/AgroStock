@@ -301,6 +301,37 @@ namespace AgroStock
                 Debug.WriteLine("Erreur Execution requete");
             }
         }
+        //UPDATE
+        public void UpdateProduct(Product unProduct)
+        {
+            string requete = "call updateProduct(@productId, @productName, @productionDate, @totalCarbonFootprint, @resourcesUsed, @price, @subcategoryId);";
+            MySqlCommand unNewProduct = null;
+            try
+            {
+                this.maConnexion.Open();
+                unNewProduct = this.maConnexion.CreateCommand();
+                unNewProduct.CommandText = requete;
+                //Faire la correspondance entre les variables SQL et les données d'un produit
+                unNewProduct.Parameters.AddWithValue("@productId", unProduct.Id);
+                unNewProduct.Parameters.AddWithValue("@productName", unProduct.ProductName);
+                unNewProduct.Parameters.AddWithValue("@productionDate", unProduct.ProductionDate);
+                unNewProduct.Parameters.AddWithValue("@totalCarbonFootprint", unProduct.TotalCarbonFootprint);
+                unNewProduct.Parameters.AddWithValue("@resourcesUsed", unProduct.ResourcesUsed);
+                unNewProduct.Parameters.AddWithValue("@price", unProduct.Price);
+                unNewProduct.Parameters.AddWithValue("@subcategoryId", unProduct.SubcategoryId);
+
+                //Execution de la requete
+                unNewProduct.ExecuteNonQuery();
+
+                //Fermeture de la connexion
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine("Erreur execution requete");
+            }
+        }
+
         //SELECTIONER UN PRODUIT
         public Product GetlikeProduct(int idProduct)
         {
@@ -502,7 +533,99 @@ namespace AgroStock
                 Debug.WriteLine("Erreur execution requete");
             }
         }
+
+        //********************MODELE CRUD Comandes******************************
+        //AJOUT
+        public void InsertCustomerOrder(CustomerOrder uneCustomerOrder)
+        {
+            string requete = "call insertOrder(@orderDate, @customerId, @totalAmount, @status);";
+            MySqlCommand uneOrder = null;
+            try
+            {
+                this.maConnexion.Open();
+                uneOrder = this.maConnexion.CreateCommand();
+                uneOrder.CommandText = requete;
+                //Faire la correspondance entre les variables SQL et les données d'une commande
+                uneOrder.Parameters.AddWithValue("@orderDate", uneCustomerOrder.OrderDate);
+                uneOrder.Parameters.AddWithValue("@customerId", uneCustomerOrder.CustomerId);
+                uneOrder.Parameters.AddWithValue("@totalAmount", uneCustomerOrder.TotalAmount);
+                uneOrder.Parameters.AddWithValue("@status", uneCustomerOrder.Status);
+
+                //Execution de la requete
+                uneOrder.ExecuteNonQuery();
+
+                //Fermeture de la connexion
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine("Erreur execution requete");
+            }
+        }
+
+        //SUPPRESSION
+        public void DeleteCustomerOrder(int idOrder)
+        {
+            string requete = "call deleteOrder(@idOrder);";
+            MySqlCommand uneOrder = null;
+            try
+            {
+                this.maConnexion.Open();
+                uneOrder = this.maConnexion.CreateCommand();
+                uneOrder.CommandText = requete;
+                //Faire la correspondance entre les variables SQL et les données d'une commande
+                uneOrder.Parameters.AddWithValue("@idOrder", idOrder);
+
+                //Excution de la requete
+                uneOrder.ExecuteNonQuery();
+
+                //Fermeture de la connexion
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine("Erreur Execution requete");
+            }
+        }
+        //UPDATE
+        public void UpdateCustomerOrder(CustomerOrder uneCustomerOrder)
+        {
+            string requete = "call updateOrder(@orderId, @orderDate, @customerId, @totalAmount, @status);";
+            MySqlCommand uneOrder = null;
+            try
+            {
+                this.maConnexion.Open();
+                uneOrder = this.maConnexion.CreateCommand();
+                uneOrder.CommandText = requete;
+                //Faire la correspondance entre les variables SQL et les données d'une commande
+                uneOrder.Parameters.AddWithValue("@orderId", uneCustomerOrder.OrderId);
+                uneOrder.Parameters.AddWithValue("@orderDate", uneCustomerOrder.OrderDate);
+                uneOrder.Parameters.AddWithValue("@customerId", uneCustomerOrder.CustomerId);
+                uneOrder.Parameters.AddWithValue("@totalAmount", uneCustomerOrder.TotalAmount);
+                uneOrder.Parameters.AddWithValue("@status", uneCustomerOrder.Status);
+
+                //Execution de la requete
+                uneOrder.ExecuteNonQuery();
+
+                //Fermeture de la connexion
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine("Erreur execution requete");
+            }
+        }
+        //LIST CUSTOMER ORDER, Lister les commandes client
         
+
+
+
+
+
+
+
+
+
     }
 }
 
