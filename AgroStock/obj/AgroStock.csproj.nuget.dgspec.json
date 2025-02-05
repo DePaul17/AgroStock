@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/guyvincentdepaulmouyabi/Projects/AgroStock/AgroStock/AgroStock.csproj": {}
+    "/Users/guyvincentdepaulmouyabi/Documents/IRIS/Agro_Pro/AgroStock/AgroStock/AgroStock.csproj": {}
   },
   "projects": {
-    "/Users/guyvincentdepaulmouyabi/Projects/AgroStock/AgroStock/AgroStock.csproj": {
+    "/Users/guyvincentdepaulmouyabi/Documents/IRIS/Agro_Pro/AgroStock/AgroStock/AgroStock.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/guyvincentdepaulmouyabi/Projects/AgroStock/AgroStock/AgroStock.csproj",
+        "projectUniqueName": "/Users/guyvincentdepaulmouyabi/Documents/IRIS/Agro_Pro/AgroStock/AgroStock/AgroStock.csproj",
         "projectName": "AgroStock",
-        "projectPath": "/Users/guyvincentdepaulmouyabi/Projects/AgroStock/AgroStock/AgroStock.csproj",
+        "projectPath": "/Users/guyvincentdepaulmouyabi/Documents/IRIS/Agro_Pro/AgroStock/AgroStock/AgroStock.csproj",
         "packagesPath": "/Users/guyvincentdepaulmouyabi/.nuget/packages/",
-        "outputPath": "/Users/guyvincentdepaulmouyabi/Projects/AgroStock/AgroStock/obj/",
+        "outputPath": "/Users/guyvincentdepaulmouyabi/Documents/IRIS/Agro_Pro/AgroStock/AgroStock/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/guyvincentdepaulmouyabi/.nuget/NuGet/NuGet.Config"
