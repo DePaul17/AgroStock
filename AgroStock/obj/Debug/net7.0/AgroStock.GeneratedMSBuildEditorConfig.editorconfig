@@ -16,6 +16,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = /Users/guyvincentdepaulmouyabi/Documents/IRIS/Agro_Pro/AgroStock/AgroStock
 build_property._RazorSourceGeneratorDebug = 
 
+[/Users/guyvincentdepaulmouyabi/Documents/IRIS/Agro_Pro/AgroStock/AgroStock/Pages/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRGFzaGJvYXJkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/guyvincentdepaulmouyabi/Documents/IRIS/Agro_Pro/AgroStock/AgroStock/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
