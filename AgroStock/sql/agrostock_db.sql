@@ -11,7 +11,7 @@ CREATE TABLE user (
     phoneNumber VARCHAR(15) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    role ENUM('purchasing_manager', 'stock_manager', 'sales_manager') NOT NULL,
+    role ENUM('purchasing_manager', 'stock_manager', 'sales_manager', 'customer') NOT NULL,
     qualification VARCHAR(100) NOT NULL
 );
 
@@ -72,6 +72,8 @@ CREATE TABLE historical (
     action_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
 );
+
+
 
 -- Création de la table customer_order (commande client)
 CREATE TABLE customer_order (
