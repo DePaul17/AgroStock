@@ -63,10 +63,57 @@ namespace AgroStock
             return unModele.GetAllProducts();
         }
         // LIST LIKE PRODUCT
-        public static List<Product> GetProductLike(int  idProduct)
+        public static Product GetProductLike(int idProduct)
         {
             return unModele.GetlikeProduct(idProduct);
         }
-        //********************MODELE CRUD Customer***********************
+
+        //********************MODELE CRUD CustomerOrder***********************
+        //AJOUT
+        public static void InsertCustomerOrder(CustomerOrder customerOrder)
+        {
+            unModele.InsertCustomerOrder(customerOrder);
+        }
+        //SUPPRESSION
+        public static void DeleteCustomerOrder(int id)
+        {
+            unModele.DeleteCustomerOrder(id);
+        }
+        //UPDATE
+        public static void UpdateCustomerOrder(CustomerOrder customerOrder)
+        {
+            unModele.UpdateCustomerOrder(customerOrder);
+        }
+
+        //********************MODELE CRUD StorageLocation***********************
+        //AJOUT
+        public static void InsertStorageLocation(StorageLocation storageLocation)
+        {
+            unModele.InsertStorageLocation(storageLocation);
+        }
+        //SUPPRESSION
+        public static void DeleteStorageLocation(int id)
+        {
+            unModele.DeleteStorageLocation(id);
+        }
+
+        //********************MODELE CRUD Stock*********************************
+        //AJOUT
+        public static void InsertStock(Stock stock)
+        {
+            unModele.InsertStock(stock);
+        }
+        //SUPPRESSION
+        public static void DeleteStock(int id)
+        {
+            unModele.DeleteStock(id);
+        }
+
+        //********************MODELE CRUD Historical****************************
+        //AJOUT
+        public static void InsertHistorical(Historical historical)
+        {
+            unModele.InsertHistorical(historical);
+        }
     }
 }

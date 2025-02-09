@@ -15,9 +15,11 @@
     <None Remove="modele\" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Pages\Delivery\" />
     <Folder Include="sql\" />
     <Folder Include="sql\procedures\" />
     <Folder Include="modele\" />
+    <Folder Include="wwwroot\uploads\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MySqlConnector" Version="2.4.0" />

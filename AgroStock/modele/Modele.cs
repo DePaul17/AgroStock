@@ -582,7 +582,7 @@ namespace AgroStock
                 //Fermeture de la connexion
                 this.maConnexion.Close();
             }
-            catch (Exception exp)
+            catch (Exception e)
             {
                 Debug.WriteLine("Erreur Execution requete");
             }
