@@ -7,6 +7,19 @@ namespace AgroStock
     {
         private static Modele unModele = new Modele("localhost", "agrostock_db", "root", "");
 
+        public static bool controlerDonnees(List<string> donnees)
+        {
+            bool ok = true;
+            foreach (string champ in donnees)
+            {
+                if (string.IsNullOrEmpty(champ))
+                {
+                    ok = false;
+                }
+            }
+            return ok;
+        }
+
         //********************MODELE CRUD ProductCategory***********************
         //AJOUT
         public static void InsertCategory(ProductCategory productCategory)
@@ -22,6 +35,12 @@ namespace AgroStock
         public static void UpdateCategory(ProductCategory productCategory)
         {
             unModele.UpdateCategory(productCategory);
+        }
+
+        //Lister 
+        public static List<ProductCategory> GetAllCategories()
+        {
+            return unModele.GetAllCategories();
         }
 
         //********************MODELE CRUD ProductSubcategory***********************
@@ -40,6 +59,13 @@ namespace AgroStock
         {
             unModele.UpdateSubcategory(productSubcategory);
         }
+        //Lister 
+        public static List<ProductSubcategory> GetAllSubcategories()
+        {
+            return unModele.GetAllSubcategories();
+        }
+
+
 
         //********************MODELE CRUD Product***********************
         //AJOUT

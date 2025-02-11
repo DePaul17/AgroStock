@@ -4,33 +4,30 @@ namespace AgroStock
 {
     public class ProductSubcategory
     {
-        private int id;
-        private string subcategoryName;
-        private string description;
-        private int categoryId;
+        // Propriétés automatiques
+        public int Id { get; set; }                  // ID de la sous-catégorie
+        public string SubcategoryName { get; set; }  // Nom de la sous-catégorie
+        public string Description { get; set; }      // Description de la sous-catégorie
+        public int CategoryId { get; set; }          // ID de la catégorie parente
+        public string ParentCategory { get; set; }   // Nom de la catégorie parente
 
-        // Constructeur
-        public ProductSubcategory(int id, string subcategoryName, string description, int categoryId)
+        // Constructeur pour l'insertion (sans ID)
+        public ProductSubcategory(string subcategoryName, string description, int categoryId, string parentCategory)
         {
-            this.id = id;
-            this.subcategoryName = subcategoryName;
-            this.description = description;
-            this.categoryId = categoryId;
+            SubcategoryName = subcategoryName;
+            Description = description;
+            CategoryId = categoryId;
+            ParentCategory = parentCategory;
         }
 
-        public ProductSubcategory(string subcategoryName, string description, int categoryId)
+        // Constructeur pour la modification (avec ID)
+        public ProductSubcategory(int id, string subcategoryName, string description, int categoryId, string parentCategory)
         {
-            this.subcategoryName = subcategoryName;
-            this.description = description;
-            this.categoryId = categoryId;
+            Id = id;
+            SubcategoryName = subcategoryName;
+            Description = description;
+            CategoryId = categoryId;
+            ParentCategory = parentCategory;
         }
-
-        public int Id { get => id; set => id = value; }
-
-        public string SubcategoryName { get => subcategoryName; set => subcategoryName = value; }
-
-        public string Description { get => description; set => description = value; }
-
-        public int CategoryId { get => categoryId; set => categoryId = value; }
     }
 }

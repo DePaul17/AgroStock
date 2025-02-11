@@ -1,0 +1,157 @@
+﻿@page
+@model AgroStock.Pages.SubCategoryModel
+@{
+    ViewData["Title"] = "Gestion des sous-catégories";
+}
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+@{
+    string action = "";
+    int id = 0;
+    ProductSubcategory laSousCat = null;
+    if (!string.IsNullOrEmpty(Request.Query["action"]))
+    {
+        action = Request.Query["action"];
+        id = Int16.Parse(Request.Query["id"]);
+        if (action.Equals("sup"))
+        {
+            Controleur.DeleteSubcategory(id);
+        }
+        else if (action.Equals("edit"))
+        {
+            List<ProductSubcategory> lesSousCategories = Controleur.GetAllSubcategories();
+            laSousCat = lesSousCategories.FirstOrDefault(scat => scat.Id == id);
+        }
+    }
+}
+<div class="col-md-6">
+    <div class="card card-primary card-outline mb-4">
+        <!--begin::Header-->
+        <div class="card-header"><div class="card-title">Ajouter une sous-catégorie</div></div>
+        <!--end::Header-->
+        <!--begin::Form-->
+        <form method="post">
+            <!--begin::Body-->
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label">Nom</label>
+                    <input type="text" name="nom" class="form-control" value="@Html.Raw((laSousCat == null) ? "" : laSousCat.SubcategoryName)">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <input type="text" name="description" class="form-control" value="@Html.Raw((laSousCat == null) ? "" : laSousCat.Description)">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Catégorie mère</label>
+                    <select name="idCategory" class="form-control">
+                        @foreach (var category in Controleur.GetAllCategories())
+                        {
+                            <option value="@category.Id" selected="@(laSousCat != null && laSousCat.CategoryId == category.Id)">
+                                @category.CategoryName
+                            </option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <!--end::Body-->
+            <!--begin::Footer-->
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary" name="@(laSousCat == null ? "Valider" : "Modifier")" value="@(laSousCat == null ? "Valider" : "Modifier")">@((laSousCat == null) ? "Valider" : "Modifier")</button>
+                <button type="reset" class="btn float-end">Annuler</button>
+            </div>
+            <!--end::Footer-->
+        </form>
+        <!--end::Form-->
+        @{
+            string nom, description;
+            int idCategory;
+            string message = "";
+
+            if (Request.Method == "POST" && !string.IsNullOrEmpty(Request.Form["Modifier"]))
+            {
+                id = Int16.Parse(Request.Query["id"]);
+                nom = Request.Form["nom"];
+                description = Request.Form["description"];
+                idCategory = Int16.Parse(Request.Form["idCategory"]);
+
+                // Contrôle des données
+                List<string> donnees = new List<string>();
+                donnees.Add(nom);
+                donnees.Add(description);
+                donnees.Add(idCategory.ToString());
+
+                if (Controleur.controlerDonnees(donnees))
+                {
+                    ProductSubcategory laSousCategorie = new ProductSubcategory(id, nom, description, idCategory, "");
+                    Controleur.UpdateSubcategory(laSousCategorie);
+                    message = "Modification réussie de la sous-catégorie.";
+                    // Actualiser la page après la modif
+                    Response.Redirect("SubCategory");
+                }
+                else
+                {
+                    message = "Veuillez remplir tous les champs.";
+                }
+            }
+
+            if (Request.Method == "POST" && !string.IsNullOrEmpty(Request.Form["Valider"]))
+            {
+                nom = Request.Form["nom"];
+                description = Request.Form["description"];
+                idCategory = Int16.Parse(Request.Form["idCategory"]);
+
+                // Contrôle des données
+                List<string> donnees = new List<string>();
+                donnees.Add(nom);
+                donnees.Add(description);
+                donnees.Add(idCategory.ToString());
+
+                if (Controleur.controlerDonnees(donnees))
+                {
+                    ProductSubcategory laSousCategorie = new ProductSubcategory(nom, description, idCategory, "");
+                    Controleur.InsertSubcategory(laSousCategorie);
+                    message = "Insertion réussie de la sous-catégorie.";
+                }
+                else
+                {
+                    message = "Veuillez remplir tous les champs.";
+                }
+            }
+        }
+
+        @Html.Raw(message)
+        <div class="card card-primary card-outline mb-4">
+            <div class="card-header"><h3 class="card-title">Les sous-catégories</h3></div>
+            <div class="card-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Sous-Catégorie</th>
+                            <th>Description</th>
+                            <th>Catégorie mère</th>
+                            <th>Opérations</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var uneSousCat in Controleur.GetAllSubcategories())
+                        {
+                            <tr>
+                                <td>@uneSousCat.Id</td>
+                                <td>@uneSousCat.SubcategoryName</td>
+                                <td>@uneSousCat.Description</td>
+                                <td>@uneSousCat.ParentCategory</td>
+                                <td>
+                                    <a href="SubCategory?action=sup&id=@uneSousCat.Id"><i class="fa-solid fa-trash"></i></a>
+                                    <a href="SubCategory?action=edit&id=@uneSousCat.Id"><i class="fa-solid fa-pen-to-square"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

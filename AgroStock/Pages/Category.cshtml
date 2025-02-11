@@ -1,0 +1,141 @@
+﻿@page
+@model AgroStock.Pages.CategoryModel
+@{
+    ViewData["Title"] = "Gestion des Catégories";
+}
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+@{
+    string action = "";
+    int id = 0;
+    ProductCategory laCat = null;
+    if (!string.IsNullOrEmpty(Request.Query["action"]))
+    {
+        action = Request.Query["action"];
+        id = Int16.Parse(Request.Query["id"]);
+        if (action.Equals("sup"))
+        {
+            Controleur.DeleteCategory(id);
+        }
+        else if (action.Equals("edit"))
+        {
+            List<ProductCategory> lesCategories = Controleur.GetAllCategories();
+            laCat = lesCategories.FirstOrDefault(cat => cat.Id == id);
+        }
+    }
+}
+<div class="col-md-6">
+    <div class="card card-primary card-outline mb-4">
+        <!--begin::Header-->
+        <div class="card-header"><div class="card-title">Ajouter une catégorie</div></div>
+        <!--end::Header-->
+        <!--begin::Form-->
+        <form method="post">
+            <!--begin::Body-->
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label">Nom</label>
+                    <input type="text" name="nom" class="form-control" value="@Html.Raw((laCat == null) ? "" : laCat.CategoryName)">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <input type="text" name="description" class="form-control" value="@Html.Raw((laCat == null) ? "" : laCat.Description)">
+                </div>
+
+            </div>
+            <!--end::Body-->
+            <!--begin::Footer-->
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary" name="@(laCat == null ? "Valider" : "Modifier")" value="@(laCat == null ? "Valider" : "Modifier")">@((laCat == null) ? "Valider" : "Modifier")</button>
+                <button type="reset" class="btn float-end">Annuler</button>
+            </div>
+            <!--end::Footer-->
+        </form>
+        <!--end::Form-->
+
+        @{
+            string nom, description;
+            string message = "";
+
+            if (Request.Method == "POST" && !string.IsNullOrEmpty(Request.Form["Modifier"]))
+            {
+                id = Int16.Parse(Request.Query["id"]);
+                nom = Request.Form["nom"];
+                description = Request.Form["description"];
+                //controle des donnees
+                List<string> donnees = new List<string>();
+                donnees.Add(nom);
+                donnees.Add(description);
+                if (Controleur.controlerDonnees(donnees))
+                {
+
+                    ProductCategory laCategorie = new ProductCategory(id, nom, description);
+                    Controleur.UpdateCategory(laCategorie);
+                    message = "Modification réussie de la Catégorie.";
+                    // Actualiser la page après la modif
+                    Response.Redirect("Category");
+                    
+                }
+                else
+                {
+                    message = "Veuillez remplir tous les champs.";
+                }
+            }
+
+            if (Request.Method == "POST" && !string.IsNullOrEmpty(Request.Form["Valider"]))
+            {
+                nom = Request.Form["nom"];
+                description = Request.Form["description"];
+                //controle des donnees
+                List<string> donnees = new List<string>();
+                donnees.Add(nom);
+                donnees.Add(description);
+                if (Controleur.controlerDonnees(donnees))
+                {
+
+                    ProductCategory laCategorie = new ProductCategory(nom, description);
+                    Controleur.InsertCategory(laCategorie);
+                    message = "Insertion réussie de la Catégorie.";
+                }
+                else
+                {
+                    message = "Veuillez remplir tous les champs.";
+                }
+            }
+        }
+
+        @Html.Raw(message)
+        <div class="card card-primary card-outline mb-4">
+
+            <div class="card-header"><h3 class="card-title">Les Catégories</h3></div>
+            <div class="card-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Catégorie</th>
+                            <th>Description</th>
+                            <th>Opérations</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var uneCat in Controleur.GetAllCategories())
+                        {
+                            <tr>
+                                <td>@uneCat.Id</td>
+                                <td>@uneCat.CategoryName</td>
+                                <td>@uneCat.Description</td>
+                                <td>
+                                    <a href="Category?action=sup&id=@uneCat.Id"><i class="fa-solid fa-trash"></i></a>
+                                    <a href="Category?action=edit&id=@uneCat.Id"><i class="fa-solid fa-pen-to-square"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

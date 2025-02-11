@@ -105,6 +105,73 @@ CREATE TABLE delivery (
     deliveryStatus ENUM('pending', 'shipped', 'delivered', 'returned') NOT NULL,
     FOREIGN KEY (orderId) REFERENCES customer_order(id) ON DELETE CASCADE
 );
+------------------------------------------------------Insert
+
+-- Insertion des utilisateurs
+INSERT INTO user (firstName, lastName, address, phoneNumber, email, password, role, qualification) VALUES
+('Alice', 'Martin', '12 rue des Champs, Paris', '0601020304', 'alice.martin@email.com', 'hashedpassword', 'purchasing_manager', 'MBA Supply Chain'),
+('Bob', 'Dupont', '45 avenue de la République, Lyon', '0612345678', 'bob.dupont@email.com', 'hashedpassword', 'stock_manager', 'Logistique avancée'),
+('Charlie', 'Durand', '78 boulevard Haussmann, Paris', '0623456789', 'charlie.durand@email.com', 'hashedpassword', 'sales_manager', 'Commerce international'),
+('David', 'Moreau', '90 quai de la Seine, Bordeaux', '0634567890', 'david.moreau@email.com', 'hashedpassword', 'customer', 'Particulier');
+
+-- Insertion des catégories de produits
+INSERT INTO product_category (categoryName, description) VALUES
+('fruit', 'Tous types de fruits frais'),
+('légume', 'Légumes de saison et de conservation'),
+('produit_complementaire', 'Autres produits complémentaires issus de la ferme');
+
+-- Insertion des sous-catégories de produits
+INSERT INTO product_subcategory (subcategoryName, description, categoryId) VALUES
+('pomme', 'Variétés de pommes bio', 1),
+('tomate', 'Tomates bio variées', 2),
+('carotte', 'Carottes issues de l`agriculture durable', 2),
+('lait', 'Lait frais et pasteurisé', 3),
+('fromage', 'Fromages artisanaux', 3),
+('confiture', 'Confitures maison', 3);
+
+-- Insertion des produits
+INSERT INTO product (productName, productionDate, totalCarbonFootprint, resourcesUsed, price, subcategoryId) VALUES
+('Golden Bio', '2025-02-01', 1.2, 'Eau, soleil, engrais naturel', 2.50, 1),
+('Tomate Coeur de Boeuf', '2025-02-02', 0.9, 'Irrigation modérée', 3.00, 2),
+('Carotte des sables', '2025-02-03', 0.7, 'Terroir sableux riche en minéraux', 1.80, 3),
+('Lait de ferme', '2025-02-01', 2.5, 'Alimentation des vaches bio', 1.20, 4),
+('Camembert fermier', '2025-02-04', 3.2, 'Lait cru, affinage traditionnel', 4.50, 5),
+('Confiture de fraise', '2025-02-05', 1.5, 'Fraises bio, sucre de canne', 5.00, 6);
+
+-- Insertion des emplacements de stockage
+INSERT INTO storage_location (locationName, storageType, maxCapacity) VALUES
+('Chambre froide', 'Réfrigéré', 1000),
+('Stock fruits & légumes', 'Température ambiante', 500),
+('Cave affinage', 'Affinage', 300);
+
+-- Insertion des stocks
+INSERT INTO stock (productId, entryDate, exitDate, storageLocationId, quantity) VALUES
+(1, '2025-02-06', NULL, 2, 150),
+(2, '2025-02-06', NULL, 2, 200),
+(4, '2025-02-06', NULL, 1, 100),
+(5, '2025-02-06', NULL, 3, 50);
+
+-- Insertion de l'historique
+INSERT INTO historical (user_id, action) VALUES
+(1, 'Ajout d`un nouveau lot de pommes'),
+(2, 'Mise à jour des quantités de tomates');
+
+-- Insertion des commandes clients
+INSERT INTO customer_order (orderDate, customerId, totalAmount, status) VALUES
+('2025-02-07', 4, 25.50, 'pending');
+
+-- Insertion des articles de commande
+INSERT INTO order_item (orderId, productId, quantity, price) VALUES
+(1, 1, 5, 12.50),
+(1, 2, 3, 9.00),
+(1, 6, 1, 5.00);
+
+-- Insertion des livraisons
+INSERT INTO delivery (orderId, deliveryDate, deliveryAddress, deliveryStatus) VALUES
+(1, '2025-02-08', '90 quai de la Seine, Bordeaux', 'pending');
+
+
+
 
 
 ------------------------------------------------------------ PROCÉDURE CATÉGORIE
