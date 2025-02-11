@@ -113,6 +113,7 @@
                     ProductSubcategory laSousCategorie = new ProductSubcategory(nom, description, idCategory, "");
                     Controleur.InsertSubcategory(laSousCategorie);
                     message = "Insertion réussie de la sous-catégorie.";
+                    Response.Redirect("SubCategory");
                 }
                 else
                 {

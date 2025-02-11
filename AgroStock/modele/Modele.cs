@@ -141,7 +141,7 @@ namespace AgroStock
         //AJOUT
         public void InsertSubcategory(ProductSubcategory uneProductSubcategory)
         {
-            string requete = "call insertSubcategory (@subcategoryName, @description, @parentCategory);";
+            string requete = "call insertSubcategory (@subcategoryName, @description, @categoryId);";
             MySqlCommand uneSubcategory = null;
             try
             {
@@ -151,7 +151,7 @@ namespace AgroStock
                 //Faire la correspondance entre les variables SQL et les données d'une sous-catégorie
                 uneSubcategory.Parameters.AddWithValue("@subcategoryName", uneProductSubcategory.SubcategoryName);
                 uneSubcategory.Parameters.AddWithValue("@description", uneProductSubcategory.Description);
-                uneSubcategory.Parameters.AddWithValue("@parentCategory", uneProductSubcategory.ParentCategory);
+                uneSubcategory.Parameters.AddWithValue("@categoryId", uneProductSubcategory.CategoryId);
 
                 //Execution de la requete
                 uneSubcategory.ExecuteNonQuery();
@@ -191,7 +191,7 @@ namespace AgroStock
         //UPDATE
         public void UpdateSubcategory(ProductSubcategory uneProductSubcategory)
         {
-            string requete = "call updateSubcategory (@idSubcategory, @subcategoryName, @description, @parentCategory);";
+            string requete = "call updateSubcategory (@idSubcategory, @subcategoryName, @description, @categoryId);";
             MySqlCommand uneSubcategory = null;
             try
             {
@@ -202,7 +202,7 @@ namespace AgroStock
                 uneSubcategory.Parameters.AddWithValue("@idSubcategory", uneProductSubcategory.Id);
                 uneSubcategory.Parameters.AddWithValue("@subcategoryName", uneProductSubcategory.SubcategoryName);
                 uneSubcategory.Parameters.AddWithValue("@description", uneProductSubcategory.Description);
-                uneSubcategory.Parameters.AddWithValue("@parentCategory", uneProductSubcategory.ParentCategory);
+                uneSubcategory.Parameters.AddWithValue("@categoryId", uneProductSubcategory.CategoryId);
                 //Excution de la requete
                 uneSubcategory.ExecuteNonQuery();
                 //Fermeture de la connexion
@@ -213,7 +213,7 @@ namespace AgroStock
                 Debug.WriteLine("Erreur Execution requete");
             }
         }
-        //LISTER LES SOUS-CATEGORIES*
+        //LISTER LES SOUS-CATEGORIES
         public List<ProductSubcategory> GetAllSubcategories()
         {
             List<ProductSubcategory> subcategories = new List<ProductSubcategory>();
@@ -262,6 +262,8 @@ namespace AgroStock
         }
 
 
+
+
         /** public List<ProductSubcategory> GetAllSubcategories()
         {
             List<ProductSubcategory> subcategories = new List<ProductSubcategory>();
@@ -293,6 +295,7 @@ namespace AgroStock
             return subcategories;
         } */
 
+        
 
         //********************MODELE CRUD Product*******************************
         //AJOUT
@@ -664,15 +667,6 @@ namespace AgroStock
         }
         //LIST CUSTOMER ORDER, Lister les commandes client
         
-
-
-
-
-
-
-
-
-
     }
 }
 

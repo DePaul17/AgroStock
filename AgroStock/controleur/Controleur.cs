@@ -1,9 +1,10 @@
 ﻿using System;
+using Microsoft.AspNetCore.Mvc;
 
 
 namespace AgroStock
 {
-    public class Controleur
+    public class Controleur 
     {
         private static Modele unModele = new Modele("localhost", "agrostock_db", "root", "");
 
@@ -140,6 +141,6 @@ namespace AgroStock
         public static void InsertHistorical(Historical historical)
         {
             unModele.InsertHistorical(historical);
-        }
+        }   
     }
 }
