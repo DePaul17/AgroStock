@@ -10,6 +10,7 @@
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
   <ItemGroup>
     <Compile Remove="controleur\SubCategoryController.cs" />
+    <Compile Remove="Pages\AddProduct.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="sql\" />

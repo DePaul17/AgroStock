@@ -295,7 +295,7 @@ namespace AgroStock
             return subcategories;
         } */
 
-        
+
 
         //********************MODELE CRUD Product*******************************
         //AJOUT
@@ -420,7 +420,7 @@ namespace AgroStock
         public List<Product> GetAllProducts()
         {
             List<Product> products = new List<Product>();
-            string requete = "SELECT * FROM v_liste_products;";
+            string requete = "SELECT * FROM product;";
             MySqlCommand lesProducts = null;
             try
             {
@@ -431,13 +431,13 @@ namespace AgroStock
                 while (unReader.Read())
                 {
                     Product product = new Product(
-                        unReader.GetInt32("ProductId"),
-                        unReader.GetString("ProductName"),
-                        unReader.GetDateTime("ProductionDate"),
-                        unReader.GetFloat("TotalCarbonFootprint"),
-                        unReader.GetString("ResourcesUsed"),
-                        unReader.GetDecimal("Price"),
-                        unReader.GetInt32("SubcategoryId")
+                        unReader.GetInt32("id"),
+                        unReader.GetString("product_name"),
+                        unReader.GetDateTime("production_date"),
+                        unReader.GetFloat("total_carbon_footprint"),
+                        unReader.GetString("resources_used"),
+                        unReader.GetDecimal("price"),
+                        unReader.GetInt32("subcategory_id")
                     );
                     products.Add(product);
                 }

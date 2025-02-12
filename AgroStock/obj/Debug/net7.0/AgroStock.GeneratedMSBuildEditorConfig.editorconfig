@@ -20,6 +20,10 @@ build_property._RazorSourceGeneratorDebug =
 build_property.EffectiveAnalysisLevelStyle = 7.0
 build_property.EnableCodeStyleSeverity = 
 
+[C:/Users/Falek/Documents/Projet/AgroPro/AgroStock/AgroStock/Pages/AddProduct.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRkUHJvZHVjdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Falek/Documents/Projet/AgroPro/AgroStock/AgroStock/Pages/Category.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2F0ZWdvcnkuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -38,10 +42,6 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/Falek/Documents/Projet/AgroPro/AgroStock/AgroStock/Pages/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJpdmFjeS5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Falek/Documents/Projet/AgroPro/AgroStock/AgroStock/Pages/Product/AddProduct.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvZHVjdFxBZGRQcm9kdWN0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Falek/Documents/Projet/AgroPro/AgroStock/AgroStock/Pages/Shared/_ValidationScriptsPartial.cshtml]

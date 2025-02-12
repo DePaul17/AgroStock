@@ -1,0 +1,213 @@
+﻿@page
+@model PrivacyModel
+@{
+    ViewData["Title"] = "Produit";
+}
+
+@* ***************************************** Formulaire du produit********************** *@
+@{
+    string action = "";
+    int id = 0;
+    Product unProduct = null;
+    if (!string.IsNullOrEmpty(Request.Query["action"]))
+    {
+        action = Request.Query["action"];
+        id = Int16.Parse(Request.Query["id"]);
+        if (action.Equals("sup"))
+        {
+            Controleur.DeleteSubcategory(id);
+        }
+        else if (action.Equals("edit"))
+        {
+            List<Product> lesProducts = Controleur.GetAllProducts();
+            unProduct = lesProducts.FirstOrDefault(scat => scat.Id == id);
+        }
+    }
+}
+
+<!--begin::App Main-->
+<main class="app-main">
+
+    @* *****************************Partie Hearder de la page pricipale***************************** *@
+    <!--begin::App Content Header-->
+    <div class="app-content-header">
+        <!--begin::Container-->
+        <div class="container-fluid">
+            <!--begin::Row-->
+            <div class="row">
+                <!--begin::Col-->
+                <div class="col-sm-6"><h3 class="mb-0">Ajoutez un produit</h3></div>
+                <!--end::Col-->
+                <!--begin::Col-->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-end">
+                        <li class="breadcrumb-item"><a href="#">Accueil</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                    </ol>
+                </div>
+                <!--end::Col-->
+            </div>
+            <!--end::Row-->
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::App Content Header-->
+    @* *****************************END Partie Hearder de la page pricipale***************************** *@
+
+    <div class="card card-info card-outline mb-4">
+        <!--begin::Header-->
+        <div class="card-header">
+            <div class="card-title">Formulaire d'Ajout de Produit </div>
+        </div>
+        <!--end::Header-->
+        <!--begin::Form-->
+        <form class="needs-validation" novalidate method="post">
+            <!--begin::Body-->
+            <div class="card-body">
+                <!--begin::Row-->
+                <div class="row g-3">
+                    <!--begin::Col-->
+                    <div class="col-md-6">
+                        <label for="validationCustom01" class="form-label">Nom du Produit</label>
+                        <input type="text" class="form-control" id="validationCustom01" name="productName" value="@Html.Raw((unProduct==null)?"":unProduct.ProductName)" required />
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback"> S'il vous plaît veuillez entrer un produit' </div>
+                    </div>
+                    <!--end::Col-->
+                    <!--begin::Col-->
+                    <div class="col-md-6">
+                        <label for="validationCustom02" class="form-label">
+                            Date de Production</labe>
+                            <input type="date" class="form-control" id="validationCustom02" name="productionDate" value="@Html.Raw((unProduct==null)?"":unProduct.ProductionDate)" required />
+                            <div class="valid-feedback">Looks good!</div>
+                    </div>
+                    <!--end::Col-->
+                    <!--begin::Col-->
+                    <div class="col-md-6">
+                        <label for="validationCustomUsername" class="form-label">Empreinte Carbone Totale </label>
+                        <div class="input-group has-validation">
+                            <input type="number" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" name="totalCarbonFootprint" value="@Html.Raw((unProduct==null)?"":unProduct.TotalCarbonFootprint)" required />
+                        </div>
+                    </div>
+                    <!--end::Col-->
+                    <!--begin::Col-->
+                    <div class="col-md-6">
+                        <label for="validationCustom03" class="form-label"> Ressources Utilisées </label>
+                        <input type="text" class="form-control" id="validationCustom03" name="resourcesUsed" value="@Html.Raw((unProduct==null)?"":unProduct.ResourcesUsed)" required />
+                    </div>
+                    <!--end::Col-->
+                    <!--begin::Col-->
+                    <div class="col-md-7">
+                        <label for="validationCustom04" class="form-label"> Prix </label>
+                        <input type="number" class="form-control" id="validationCustom03" name="price" value="@Html.Raw((unProduct==null)?"":unProduct.Price)" required />
+                    </div>
+                    <!--end::Col-->
+                    <!--begin::Col-->
+                    <div class="col-md-7">
+                        <label for="validationCustom05" class="form-label">Sous Catégorie</label>
+                        <select name="idProduct" class="form-control">
+                            @foreach (var subcategory in Controleur.GetAllProducts())
+                            {
+                                <option value="@subcategory.Id" selected="@(unProduct != null && unProduct.SubcategoryId == subcategory.Id)">
+                                    @subcategory.ProductName
+                                </option>
+                            }
+                        </select>
+                        <div class="invalid-feedback">
+                            S'il vous plaît veuillez choisir une sous categorie valide'
+                        </div>
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Row-->
+            </div>
+
+            <!--end::Body-->
+            <!--begin::Footer-->
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary" name="@(unProduct == null ? "Valider" : "Modifier")" value="@(unProduct == null ? "Valider" : "Modifier")">@((unProduct == null) ? "Valider" : "Modifier")</button>
+                <button type="reset" class="btn float-end">Annuler</button>
+            </div>
+        </form>
+        <!--end::Form-->
+        <!--begin::App Content-->
+        <div class="app-content"> </div>
+        @{
+            string message = "";
+
+            if (Request.Method == "POST" && !string.IsNullOrEmpty(Request.Form["Ajouter"]))
+            {
+                string productName = Request.Form["productName"];
+                string productionDateStr = Request.Form["productionDate"];
+                string resourcesUsed = Request.Form["resourcesUsed"];
+                float totalCarbonFootprint;
+                decimal price = 0;
+                int subcategoryId = 0;
+
+                DateTime productionDate = DateTime.MinValue;
+                bool isValid = float.TryParse(Request.Form["totalCarbonFootprint"], out totalCarbonFootprint) &&
+                decimal.TryParse(Request.Form["price"], out price) &&
+                DateTime.TryParse(productionDateStr, out productionDate) &&
+                int.TryParse(Request.Form["subcategoryId"], out subcategoryId);
+
+                if (!string.IsNullOrEmpty(productName) && !string.IsNullOrEmpty(productionDateStr) && !string.IsNullOrEmpty(resourcesUsed) && isValid)
+                {
+                    string v = productionDate.ToString("yyyy-MM-dd");
+                    Product Product = new Product(productName, productionDate, totalCarbonFootprint, resourcesUsed, price, subcategoryId);
+                    Controleur.InsertProduct(unProduct);
+                    message = "<div class='alert alert-success'>Produit ajouté avec succès.</div>";
+                }
+                else
+                {
+                    message = "<div class='alert alert-danger'>Veuillez remplir tous les champs correctement.</div>";
+                }
+            }
+        }
+        @Html.Raw(message)
+
+        <div class="card card-info card-outline mb-4">
+            <div class="card-header">
+                <div class="card-title">Liste des Produits</div>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Nom</th>
+                            <th>Date de Production</th>
+                            <th>Empreinte Carbone</th>
+                            <th>Ressources</th>
+                            <th>Prix</th>
+                            <th>Catégorie</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var produit in Controleur.GetAllProducts())
+                        {
+                            <tr>
+                                <td>@produit.Id</td>
+                                <td>@produit.ProductName</td>
+                                <td>@produit.ProductionDate</td>
+                                <td>@produit.TotalCarbonFootprint</td>
+                                <td>@produit.ResourcesUsed</td>
+                                <td>@produit.Price</td>
+                                <td>@produit.SubcategoryId</td>
+                                <td>
+                                    <a href="Privacy?action=edit&id=@produit.Id" class="btn btn-warning">Modifier</a>
+                                    <a href="Privacy?action=sup&id=@produit.Id" class="btn btn-danger">Supprimer</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        @* *****************************Liste product***************************** *@
+        @Html.Raw(message)
+
+
+
+</main>
+
