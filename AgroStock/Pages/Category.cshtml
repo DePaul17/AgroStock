@@ -29,7 +29,8 @@
 <div class="col-md-6">
     <div class="card card-primary card-outline mb-4">
         <!--begin::Header-->
-        <div class="card-header"><div class="card-title">Ajouter une catégorie</div></div>
+        <div class="card-header"><div class="card-title" name="@(laCat == null ? "Valider" : "Modifier")">@((laCat == null) ? "Ajouter une catégorie" : "Modifier une catégorie")</div></div>
+
         <!--end::Header-->
         <!--begin::Form-->
         <form method="post">
