@@ -1,0 +1,81 @@
+﻿@page
+@model PrivacyModel
+@{
+    ViewData["Title"] = "Liste des Produits";
+}
+
+@* ***************************************** Formulaire du produit********************** *@
+
+<!--begin::App Main-->
+<main class="app-main">
+
+    @* *****************************Partie Hearder de la page pricipale***************************** *@
+    <!--begin::App Content Header-->
+    <div class="app-content-header">
+        <!--begin::Container-->
+        <div class="container-fluid">
+            <!--begin::Row-->
+            <div class="row">
+                <!--begin::Col-->
+                <div class="col-sm-6"><h3 class="mb-0"> Liste des Produits</h3></div>
+                <!--end::Col-->
+                <!--begin::Col-->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-end">
+                        <li class="breadcrumb-item"><a href="#">Acceuil</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                    </ol>
+                </div>
+                <!--end::Col-->
+            </div>
+            <!--end::Row-->
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::App Content Header-->
+    @* *****************************END Partie Hearder de la page pricipale***************************** *@
+
+    <div class="card card-info card-outline mb-4">
+        <!--begin::Header-->
+        <div class="card-header">
+            <div class="card-title">Formulaire de liste de Produits </div>
+        </div>
+        <!--end::Header-->
+        <!--begin::Form-->
+        <form class="needs-validation" novalidate>
+            <!--begin::Body-->
+            <div class="card-body">
+                <!--begin::Row-->
+                <div class="row g-3">
+                    <!--begin::Col-->
+                    <!--end::Col-->
+                    <!--begin::Col-->
+                    <div class="col-md-7">
+                        <label for="validationCustom05" class="form-label">Liste des Produits</label>
+                        <table class="table table-striped-columns">
+
+                            <tr>
+                                <td> Id Produit </td>
+                                <td> Nom du produit </td>
+                                <td> Date de Poduction </td>
+                                <td> Empreinte Carbone Totale </td>
+                                <td>  Ressources Utilisées </td>
+                                <td> Prix </td>
+                                <td> Sous Catégorie </td>
+                            </tr>
+                        </table>
+            <!--end::Body-->
+            <!--begin::Footer-->
+           
+                <div class="card-footer">
+                    <button class="btn btn-info" type="submit">Valider</button>
+                    <button class="btn btn-info" type="reset">Modifier</button>
+                </div>
+            <!--end::Footer-->
+        </form>
+        <!--end::Form-->
+        <!--begin::App Content-->
+        <div class="app-content">
+        </div>
+     
+        </main>
