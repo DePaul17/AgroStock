@@ -1,4 +1,3 @@
-﻿<!DOCTYPE html>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -56,6 +55,9 @@
                         </li>
                     <li class="nav-item d-none d-md-block">
                         <a class="nav-link" asp-area="" asp-page="/Dashboard">Dashboard</a>
+                    </li>
+                    <li class="nav-item d-none d-md-block">
+                        <a class="nav-link" asp-area="" asp-page="/Historical">Historique</a>
                     </li>
                 </ul>
                 <!--end::Start Navbar Links-->
@@ -184,10 +186,19 @@
                             </ul>
                         </li>
                         
+                        <li class="nav-header">COMMANDES</li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon bi bi-circle-fill"></i>
-                                <p>HISTORIQUE</p>
+                            <a href="/Orders" class="nav-link">
+                                <i class="nav-icon bi bi-cart"></i>
+                                <p>Gestion des Commandes</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-header">HISTORIQUE</li>
+                        <li class="nav-item">
+                            <a href="/Historical" class="nav-link">
+                                <i class="nav-icon bi bi-clock-history"></i>
+                                <p>Historique des Actions</p>
                             </a>
                         </li>
 
@@ -309,4 +320,3 @@
 
 <!--end::Body-->
 </html>
-

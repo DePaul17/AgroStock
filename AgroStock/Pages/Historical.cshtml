@@ -1,0 +1,72 @@
+@page
+@model AgroStock.Pages.HistoricalModel
+@{
+    ViewData["Title"] = "Historique";
+}
+
+<div class="container mt-4">
+    <h2>Historique des Actions</h2>
+
+    <!-- Formulaire de recherche -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="get">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="startDate">Date de début</label>
+                            <input type="date" class="form-control" id="startDate" name="startDate" value="@Model.StartDate?.ToString("yyyy-MM-dd")">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="endDate">Date de fin</label>
+                            <input type="date" class="form-control" id="endDate" name="endDate" value="@Model.EndDate?.ToString("yyyy-MM-dd")">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="action">Action</label>
+                            <input type="text" class="form-control" id="action" name="action" value="@Model.Action" placeholder="Rechercher une action...">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="userId">ID Utilisateur</label>
+                            <input type="number" class="form-control" id="userId" name="userId" value="@Model.UserId" placeholder="ID utilisateur...">
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary">Rechercher</button>
+                        <a href="/Historical" class="btn btn-secondary">Réinitialiser</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Tableau des résultats -->
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Date et Heure</th>
+                    <th>Utilisateur ID</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Historicals)
+                {
+                    <tr>
+                        <td>@item.ActionTimestamp.ToString("dd/MM/yyyy HH:mm:ss")</td>
+                        <td>@item.UserId</td>
+                        <td>@item.Action</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
