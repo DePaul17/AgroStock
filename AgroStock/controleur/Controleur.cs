@@ -57,6 +57,10 @@ namespace AgroStock
         {
             unModele.UpdateProduct(product);
         }
+        public static Product SelectWherePoduct(int idProduct)
+        {
+            return unModele.selectWhereProduct(idProduct);
+        }
         //LISTE DES PRODUITS
         public static List<Product> GetAllProducts()
         {
@@ -74,6 +78,7 @@ namespace AgroStock
         {
             unModele.InsertCustomerOrder(customerOrder);
         }
+       
         //SUPPRESSION
         public static void DeleteCustomerOrder(int id)
         {

@@ -5,6 +5,26 @@
 }
 
 @* ***************************************** Formulaire du produit********************** *@
+@{
+    string action = "";
+    int idProduct = 0;
+    Product leProduct = null;
+
+    if (!String.IsNullOrEmpty(Request.Query["action"]))
+    {
+        action = Request.Query["action"];
+        idProduct = int.Parse(Request.Query["idProduct"]);
+
+        if (action.Equals("sup"))
+        {
+            Controleur.DeleteProduct(idProduct);
+        }
+        else
+        {
+            leProduct = Controleur.SelectWhereProduct(idProduct);
+        }
+    }
+}
 
 <!--begin::App Main-->
 <main class="app-main">
@@ -17,7 +37,7 @@
             <!--begin::Row-->
             <div class="row">
                 <!--begin::Col-->
-                <div class="col-sm-6"><h3 class="mb-0">Ajoutrez un produit</h3></div>
+                <div class="col-sm-6"><h3 class="mb-0">Ajoutez un produit</h3></div>
                 <!--end::Col-->
                 <!--begin::Col-->
                 <div class="col-sm-6">
@@ -35,12 +55,115 @@
     <!--end::App Content Header-->
     @* *****************************END Partie Hearder de la page pricipale***************************** *@
 
+    <div class="card card-info card-outline mb-4">
+        <!--begin::Header-->
+        <div class="card-header">
+            <div class="card-title">Formulaire d'Ajout de Produit </div>
+        </div>
+        <!--end::Header-->
+        <!--begin::Form-->
+        <form class="needs-validation" novalidate>
+            <!--begin::Body-->
+            <div class="card-body">
+                <!--begin::Row-->
+                <div class="row g-3">
+                    <!--begin::Col-->
+                    <div class="col-md-6">
+                        <label for="validationCustom01" class="form-label">Nom du Produit</label>
+                        <input type="text" class="form-control" id="validationCustom01" name="productName" value="@Html.Raw((leProduct==null)?"":Product.productName)" required />
+                        <div class="valid-feedback">Looks good!</div>
+                        <div class="invalid-feedback"> S'il vous plaît veuillez entrer un produit' </div>
+                    </div>
+                    <!--end::Col-->
+                    <!--begin::Col-->
+                    <div class="col-md-6">
+                        <label for="validationCustom02" class="form-label"> Date de Production</labe>
+                            <input type="date" class="form-control" id="validationCustom02" name="productionDate" value="@Html.Raw((leCommercial==null)?"":leCommercial.Mdp)" required />
+                            <div class="valid-feedback">Looks good!</div>
+                    </div>
+                    <!--end::Col-->
+                    <!--begin::Col-->
+                    <div class="col-md-6">
+                        <label for="validationCustomUsername" class="form-label">Empreinte Carbone Totale </label>
+                        <div class="input-group has-validation">
+                            <input type="number" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" name="totalCarbonFootprint" value="@Html.Raw((leCommercial==null)?"":leCommercial.Mdp)" required />
+                        </div>
+                    </div>
+                    <!--end::Col-->
+                    <!--begin::Col-->
+                    <div class="col-md-6">
+                        <label for="validationCustom03" class="form-label"> Ressources Utilisées </label>
+                        <input type="text" class="form-control" id="validationCustom03" name="resourcesUsed" value="@Html.Raw((leCommercial==null)?"":leCommercial.Mdp)" required />
+                    </div>
+                    <!--end::Col-->
+                    <!--begin::Col-->
+                    <div class="col-md-7">
+                        <label for="validationCustom04" class="form-label"> Prix </label>
+                        <input type="number" class="form-control" id="validationCustom03" name="price" value="@Html.Raw((leCommercial==null)?"":leCommercial.Mdp)" required />
+                    </div>
+                    <!--end::Col-->
+                    <!--begin::Col-->
+                    <div class="col-md-7">
+                        <label for="validationCustom05" class="form-label">Sous Catégorie</label>
+                        <select class="form-select" id="validationCustom04" name="subcategoryId" value="@Html.Raw((leCommercial==null)?"":leCommercial.Mdp)" required>
+                            <option selected disabled value="">Veuillez Choisir</option>
+                            <option>Agrumes</option>
+                            <option>Légumes fruits</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            S'il vous plaît veuillez choisir une sous categorie valide'
+                        </div>
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Row-->
+            </div>
+            <!--end::Body-->
+            <!--begin::Footer-->
+            <center>
+                <div class="card-footer">
+                    <button class="btn btn-info" type="submit">Valider</button>
+                </div>
+            </center>
+            <!--end::Footer-->
+        </form>
+        <!--end::Form-->
 
+        <!--begin::App Content-->
+        <div class="app-content">
+        </div>
+        @{
+            string message = "";
+            if (Request.Method == "POST" && !string.IsNullOrEmpty(Request.Form["Ajouter"]))
+            {
+                string productName = Request.Form["productName"];
+                string productionDateStr = Request.Form["productionDate"];
+                string resourcesUsed = Request.Form["resourcesUsed"];
+                float totalCarbonFootprint;
+                decimal price = 0 ;
+                int subcategoryId = 0;
 
+                DateTime productionDate = DateTime.MinValue;
+                bool isValid = float.TryParse(Request.Form["totalCarbonFootprint"], out totalCarbonFootprint) &&
+                decimal.TryParse(Request.Form["price"], out price) &&
+                DateTime.TryParse(productionDateStr, out productionDate) &&
+                int.TryParse(Request.Form["subcategoryId"], out subcategoryId);
 
-
-    <!--begin::App Content-->
-    <div class="app-content">
-    </div>
+                if (!string.IsNullOrEmpty(productName) && !string.IsNullOrEmpty(productionDateStr) && !string.IsNullOrEmpty(resourcesUsed) && isValid)
+                {
+                    string v = productionDate.ToString("yyyy-MM-dd");
+                    Product unProduct = new Product(productName, productionDate, totalCarbonFootprint, resourcesUsed, price, subcategoryId);
+                    Controleur.InsertProduct(unProduct);
+                    message = "<div class='alert alert-success'>Produit ajouté avec succès.</div>";
+                }
+                else
+                {
+                    message = "<div class='alert alert-danger'>Veuillez remplir tous les champs correctement.</div>";
+                }
+            }
+        }
+        
+</main>
+<!--end::App Main-->
 </main>
 <!--end::App Main-->

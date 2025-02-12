@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\borma\\Source\\Repos\\AgroStock\\AgroStock\\AgroStock.csproj": {}
+    "C:\\Users\\diall\\AgroStock\\AgroStock\\AgroStock.csproj": {}
   },
   "projects": {
-    "C:\\Users\\borma\\Source\\Repos\\AgroStock\\AgroStock\\AgroStock.csproj": {
+    "C:\\Users\\diall\\AgroStock\\AgroStock\\AgroStock.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\borma\\Source\\Repos\\AgroStock\\AgroStock\\AgroStock.csproj",
+        "projectUniqueName": "C:\\Users\\diall\\AgroStock\\AgroStock\\AgroStock.csproj",
         "projectName": "AgroStock",
-        "projectPath": "C:\\Users\\borma\\Source\\Repos\\AgroStock\\AgroStock\\AgroStock.csproj",
-        "packagesPath": "C:\\Users\\borma\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\borma\\Source\\Repos\\AgroStock\\AgroStock\\obj\\",
+        "projectPath": "C:\\Users\\diall\\AgroStock\\AgroStock\\AgroStock.csproj",
+        "packagesPath": "C:\\Users\\diall\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\diall\\AgroStock\\AgroStock\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\borma\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\diall\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
