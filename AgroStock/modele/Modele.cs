@@ -502,7 +502,6 @@ namespace AgroStock
                 Debug.WriteLine("Erreur Execution requete");
             }
         }
-
         //********************MODELE CRUD Stock*********************************
         //AJOUT
         public void InsertStock(Stock unStock)
@@ -584,7 +583,67 @@ namespace AgroStock
             }
         }
 
-        //********************MODELE CRUD Comandes******************************
+        //RECHERCHER DANS L'HISTORIQUE
+        public List<Historical> SearchHistorical(DateTime? startDate = null, DateTime? endDate = null, string action = null, int? userId = null)
+        {
+            List<Historical> historicals = new List<Historical>();
+            string requete = "SELECT * FROM historical WHERE 1=1";
+
+            if (startDate.HasValue)
+                requete += " AND actionTimestamp >= @startDate";
+            if (endDate.HasValue)
+                requete += " AND actionTimestamp <= @endDate";
+            if (!string.IsNullOrEmpty(action))
+                requete += " AND action LIKE @action";
+            if (userId.HasValue)
+                requete += " AND userId = @userId";
+
+            requete += " ORDER BY actionTimestamp DESC;";
+
+            MySqlCommand command = null;
+            try
+            {
+                this.maConnexion.Open();
+                command = this.maConnexion.CreateCommand();
+                command.CommandText = requete;
+
+                if (startDate.HasValue)
+                    command.Parameters.AddWithValue("@startDate", startDate.Value);
+                if (endDate.HasValue)
+                    command.Parameters.AddWithValue("@endDate", endDate.Value);
+                if (!string.IsNullOrEmpty(action))
+                    command.Parameters.AddWithValue("@action", "%" + action + "%");
+                if (userId.HasValue)
+                    command.Parameters.AddWithValue("@userId", userId.Value);
+
+                MySqlDataReader unReader = command.ExecuteReader();
+                while (unReader.Read())
+                {
+                    Historical historical = new Historical(
+                        unReader.GetInt32("id"),
+                        unReader.GetInt32("userId"),
+                        unReader.GetString("action"),
+                        unReader.GetDateTime("actionTimestamp")
+                    );
+                    historicals.Add(historical);
+                }
+                unReader.Close();
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine("Erreur execution requete");
+            }
+            return historicals;
+        }
+
+        //OBTENIR TOUT L'HISTORIQUE
+        public List<Historical> GetAllHistorical()
+        {
+            return SearchHistorical();
+        }
+
+        //********************MODELE CRUD Commandes******************************
         //AJOUT
         public void InsertCustomerOrder(CustomerOrder uneCustomerOrder)
         {
@@ -665,8 +724,87 @@ namespace AgroStock
                 Debug.WriteLine("Erreur execution requete");
             }
         }
-        //LIST CUSTOMER ORDER, Lister les commandes client
-        
+        //RECHERCHER DES COMMANDES
+        public List<CustomerOrder> SearchOrders(DateTime? startDate = null, DateTime? endDate = null, string status = null, int? customerId = null)
+        {
+            List<CustomerOrder> orders = new List<CustomerOrder>();
+            string requete = "SELECT * FROM customer_order WHERE 1=1";
+
+            if (startDate.HasValue)
+                requete += " AND orderDate >= @startDate";
+            if (endDate.HasValue)
+                requete += " AND orderDate <= @endDate";
+            if (!string.IsNullOrEmpty(status))
+                requete += " AND status = @status";
+            if (customerId.HasValue)
+                requete += " AND customerId = @customerId";
+
+            requete += " ORDER BY orderDate DESC;";
+
+            MySqlCommand command = null;
+            try
+            {
+                this.maConnexion.Open();
+                command = this.maConnexion.CreateCommand();
+                command.CommandText = requete;
+
+                if (startDate.HasValue)
+                    command.Parameters.AddWithValue("@startDate", startDate.Value);
+                if (endDate.HasValue)
+                    command.Parameters.AddWithValue("@endDate", endDate.Value);
+                if (!string.IsNullOrEmpty(status))
+                    command.Parameters.AddWithValue("@status", status);
+                if (customerId.HasValue)
+                    command.Parameters.AddWithValue("@customerId", customerId.Value);
+
+                MySqlDataReader unReader = command.ExecuteReader();
+                while (unReader.Read())
+                {
+                    CustomerOrder order = new CustomerOrder(
+                        unReader.GetInt32("orderId"),
+                        unReader.GetInt32("customerId"),
+                        unReader.GetDateTime("orderDate"),
+                        unReader.GetString("status"),
+                        unReader.GetDecimal("totalAmount")
+                    );
+                    orders.Add(order);
+                }
+                unReader.Close();
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine("Erreur execution requete");
+            }
+            return orders;
+        }
+
+        //OBTENIR TOUTES LES COMMANDES
+        public List<CustomerOrder> GetAllOrders()
+        {
+            return SearchOrders();
+        }
+
+        //METTRE À JOUR LE STATUT D'UNE COMMANDE
+        public void UpdateOrderStatus(int orderId, string newStatus)
+        {
+            string requete = "UPDATE customer_order SET status = @status WHERE orderId = @orderId;";
+            MySqlCommand command = null;
+            try
+            {
+                this.maConnexion.Open();
+                command = this.maConnexion.CreateCommand();
+                command.CommandText = requete;
+                command.Parameters.AddWithValue("@status", newStatus);
+                command.Parameters.AddWithValue("@orderId", orderId);
+                command.ExecuteNonQuery();
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine("Erreur execution requete");
+            }
+        }
     }
 }
 

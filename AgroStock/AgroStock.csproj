@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Remove="controleur\SubCategoryController.cs" />
     <Compile Remove="Pages\AddProduct.cs" />
+    <Compile Remove="Pages\Historical.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="sql\" />
